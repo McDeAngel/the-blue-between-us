@@ -1,0 +1,27 @@
+{
+  "name": "the-blue-between-us",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": { "node": ">=20.9.0" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "next build && node --test tests/rendered-html.test.mjs",
+    "lint": "eslint . --ignore-pattern out --ignore-pattern .next"
+  },
+  "dependencies": {
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "typescript": "5.9.3"
+  }
+}
