@@ -61,7 +61,7 @@ export default function Home() {
   const [active, setActive] = useState<Chapter>("arrival");
   const [unlocked, setUnlocked] = useState<Chapter[]>(["arrival"]);
   const [sound, setSound] = useState(false);
-  const audioRef = useRef<AudioContext | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("shekinah-blue-between-us");
@@ -87,31 +87,23 @@ export default function Home() {
   };
 
   const toggleSound = () => {
-    if (!sound) {
-      const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        const ctx = new AudioCtx();
-        const gain = ctx.createGain();
-        const osc = ctx.createOscillator();
-        gain.gain.value = 0.025;
-        osc.frequency.value = 196;
-        osc.type = "sine";
-        osc.connect(gain).connect(ctx.destination);
-        osc.start();
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.4);
-        osc.stop(ctx.currentTime + 2.5);
-        audioRef.current = ctx;
-      }
+    if (sound) {
+      audioRef.current?.pause();
+      setSound(false);
+      return;
     }
-    setSound(!sound);
+    void audioRef.current?.play().then(() => setSound(true)).catch(() => setSound(false));
   };
 
-  if (!started) {
-    return <Opening onStart={() => setStarted(true)} />;
-  }
+  const startJourney = () => {
+    setStarted(true);
+    void audioRef.current?.play().then(() => setSound(true)).catch(() => setSound(false));
+  };
 
   return (
-    <main className="game-shell">
+    <>
+      <audio ref={audioRef} src="/if-by-bread-piano-instrumental.mp3" loop preload="auto" />
+      {!started ? <Opening onStart={startJourney} /> : <main className="game-shell">
       <div className="sky-noise" aria-hidden="true" />
       <header className="topbar">
         <button className="brand" onClick={() => setActive("arrival")} aria-label="Return to the beginning">
@@ -119,7 +111,7 @@ export default function Home() {
           <span><b>The Blue Between Us</b><small>made only for Shekinah</small></span>
         </button>
         <button className="sound-button" onClick={toggleSound} aria-label={sound ? "Turn sound off" : "Turn sound on"}>
-          {sound ? "♫" : "♪"} <span>{sound ? "a little music" : "sound"}</span>
+          {sound ? "♫" : "♪"} <span>{sound ? "If — piano playing" : "play our song"}</span>
         </button>
       </header>
 
@@ -149,7 +141,8 @@ export default function Home() {
         {active === "future" && <FutureRoom onComplete={() => unlockNext("future")} />}
         {active === "finale" && <Finale />}
       </section>
-    </main>
+      </main>}
+    </>
   );
 }
 
@@ -178,7 +171,7 @@ function Arrival({ onComplete }: { onComplete: () => void }) {
       <div className="chapter-copy">
         <p className="eyebrow">Chapter one · December 28, 2025</p>
         <h2>The day the world<br />quietly <em>changed shape.</em></h2>
-        <p>I did not find you in a crowded room. There was no cinematic first glance. Just two lives, miles apart, arriving at the same small corner of the universe.</p>
+        <p>I did not find you in a crowded room. There was no cinematic first glance. On ChatKool.com—of all the ordinary corners of the internet—two lives, miles apart, stayed in the same conversation long enough to recognize something extraordinary.</p>
         <div className="date-card"><span>days since I found you</span><b>{daysBetween()}</b><small>and still discovering more</small></div>
       </div>
       <div className="alignment-game">
@@ -254,7 +247,7 @@ function SignalGame({ onComplete }: { onComplete: () => void }) {
       <div className="signal-copy">
         <p className="eyebrow">Chapter three · The season without a signal</p>
         <h2>We did not return<br />to the same love.<br /><em>We returned better.</em></h2>
-        <p className="honest-note">There was a season when care and fear spoke over each other. You pulled away. I hurt. We were learning. This room does not romanticize the silence—it honors what we chose after it.</p>
+        <p className="honest-note">There was a season when you pulled away because you believed I deserved someone better—as if loving you would somehow be unfair to me. I hurt, but I never saw you as a burden. This room does not romanticize the silence; it remembers what we learned after it: you do not have to disqualify yourself from a love that sees you clearly.</p>
         {!finished ? <div className="choice-game">
           <div className="choice-progress">{signalChoices.map((_, i) => <i key={i} className={i < step ? "done" : i === step ? "now" : ""} />)}</div>
           <h3>{signalChoices[step].prompt}</h3>
@@ -298,10 +291,11 @@ function FutureRoom({ onComplete }: { onComplete: () => void }) {
         <h2>A future can be held<br /><em>gently, not tightly.</em></h2>
         <p>We have not shared a table yet. We have not taken the first real-life photo. So this is not pretending we are already there. It is a window left open for the life we hope to earn, one honest day at a time.</p>
         <div className="future-cards">
-          <button onClick={() => open("bogart")}><span>01</span><b>Bogart</b><small>a note for our maybe-boy</small></button>
-          <button onClick={() => open("jelly")}><span>02</span><b>Jelly Bean</b><small>a note for our maybe-girl</small></button>
+          <button onClick={() => open("bogart")}><span>01 · Bogart</span><b>Little Marc</b><small>a letter for our maybe-boy</small></button>
+          <button onClick={() => open("jelly")}><span>02 · Jelly Bean</span><b>Little Shekinah</b><small>a letter for our maybe-girl</small></button>
         </div>
-        {note && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close letter">×</button><p>Dear {note === "bogart" ? "Bogart" : "Jelly Bean"},</p><h3>If someday you become more than a nickname, know that you began as a tiny light in two people&apos;s long-distance conversations—a way of saying, “I can imagine a home with you.”</h3><small>Love, the two hopeful weirdos who named you early</small></div>}
+        {note === "bogart" && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close Little Marc's letter">×</button><p>Dear Little Marc—our Bogart,</p><h3>If someday you become more than the nickname we smile about now, I hope you inherit your mama&apos;s sincere heart and learn from both of us that gentleness never makes a boy less brave. Long before we could hold you, you were our way of picturing breakfast noise, scraped knees, curious questions, and a home built honestly—one conversation at a time.</h3><small>Love, Mama Shekinah and Papa Marc</small></div>}
+        {note === "jelly" && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close Little Shekinah's letter">×</button><p>Dear Little Shekinah—our Jelly Bean,</p><h3>You began as a little sweetness tucked inside a future we speak about carefully. If we meet you someday, I hope you carry your mama&apos;s tenderness and always know it is a strength. You never have to earn your place in a loving home or become smaller to be kept; you would be wanted as your own whole, bright, wonderfully strange self.</h3><small>Love, Mama Shekinah and Papa Marc</small></div>}
         {opened.length === 2 && !note && <button className="primary-button small" onClick={onComplete}><span>Open the last letter</span><b>→</b></button>}
       </div>
     </article>
@@ -317,10 +311,10 @@ function Finale() {
         <p className="eyebrow">The last room · for Shekinah</p>
         <h2>Before the first hello<br /><em>in the same room</em></h2>
         <div className="poem">
-          <p>I know the blue light of your face on a screen,<br />the hour your voice turns soft,<br />the way two people can become familiar<br />without once sharing the same weather.</p>
-          <p>We have mistaken silence for safety,<br />and distance for an answer.<br />Still, somehow, we learned to return<br />with gentler hands around each other&apos;s fears.</p>
-          <p>I will not call you my missing half.<br />You arrived whole.<br />I only know that life beside your life<br />makes more room for wonder.</p>
-          <p>So let the first touch come when it comes.<br />Let the airports, calendars, and miles be real.<br />Until then, I will love you here—<br />not as a placeholder, but as a place.</p>
+          <p>I found you where strangers went to pass an hour,<br />on one ordinary page called ChatKool.<br />No room held us, no hands met—<br />yet something in me stopped wandering.</p>
+          <p>There was a season you chose silence,<br />thinking it might protect me from loving you;<br />as if the goodness you saw in me<br />made the goodness in you less true.</p>
+          <p>But I was never too good for you.<br />I was simply close enough to recognize<br />the genuine, sincere, caring heart<br />that could not yet recognize itself.</p>
+          <p>The miles are not an answer, only geography.<br />Our answer was returning more honestly.<br />Until our weather is finally the same,<br />I choose you—not an idea of you, but you.</p>
         </div>
         <p className="signed">Yours, across every blue mile,<br /><b>Marc Ramon Emmanuel C. De Angel</b></p>
         {!yes ? <div className="final-question"><p>Shekinah, will you keep choosing this strange, honest, growing love with me?</p><button onClick={() => setYes(true)}>Yes, still us ♡</button></div> : <div className="yes-moment"><div className="floating-hearts" aria-hidden="true">♡　✦　♡　·　♡　✦　♡</div><span>then the distance is only a chapter.</span><h3>Not the ending.</h3><p>M + S · still becoming · still choosing</p></div>}

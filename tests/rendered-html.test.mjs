@@ -17,10 +17,11 @@ test("ships the complete game and bespoke share image", async () => {
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     access(new URL("../public/og.png", import.meta.url)),
+    access(new URL("../public/if-by-bread-piano-instrumental.mp3", import.meta.url)),
   ]);
   for (const chapter of ["Twin Frequency", "The Quiet", "Lily Garden", "Bogart", "Jelly Bean", "For Shekinah"]) assert.match(page, new RegExp(chapter));
   assert.match(page, /localStorage/);
-  assert.match(page, /AudioContext/);
+  assert.match(page, /if-by-bread-piano-instrumental\.mp3/);
   assert.match(layout, /\/og\.png/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton|drizzle|vinext/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
