@@ -21,12 +21,25 @@ const twinCards = [
 ];
 
 const lilyNotes = [
-  "Your softness is not a weakness.",
-  "I love the mind behind your beautiful face.",
-  "You make ordinary hours feel discovered.",
-  "You are allowed to need space—and still be loved.",
-  "I admire how we learned, not just how we felt.",
-  "I choose the real you, not an imagined perfect you.",
+  { mark: "01", title: "Soft is not fragile.", body: "Your softness is not a weakness. It is the way you make people feel safe without asking for credit.", stem: 190, lean: -4 },
+  { mark: "02", title: "A beautiful mind.", body: "I love the mind behind your beautiful face—the questions, the strange thoughts, and the details you notice that others miss.", stem: 230, lean: 3 },
+  { mark: "03", title: "Ordinary, discovered.", body: "You make ordinary hours feel discovered. Even a small conversation with you can change the weather of my whole day.", stem: 205, lean: -1 },
+  { mark: "04", title: "Space can stay loved.", body: "You are allowed to need space without believing love will leave. I want your honesty, never a performance.", stem: 218, lean: 4 },
+  { mark: "05", title: "We learned on purpose.", body: "I admire not only how deeply we felt, but how bravely we learned to meet each other better.", stem: 185, lean: -3 },
+  { mark: "06", title: "The real you.", body: "I choose the real you—not an imagined perfect version, not someone easier. Simply Shekinah.", stem: 224, lean: 2 },
+];
+
+const futureMoments = [
+  { mark: "01", title: "Our first same-room hello", note: "No screen between the smile and the person." },
+  { mark: "02", title: "Our first shared meal", note: "Something ordinary made unforgettable because it is finally ours." },
+  { mark: "03", title: "A white lily in our vase", note: "Not proof that we rushed—proof that someday arrived gently." },
+];
+
+const finaleStanzas = [
+  { mark: "01", label: "ChatKool", lines: ["I found you where strangers went to pass an hour,", "on one ordinary page called ChatKool.", "No room held us, no hands met—", "yet something in me stopped wandering."] },
+  { mark: "02", label: "The quiet", lines: ["There was a season you chose silence,", "thinking it might protect me from loving you;", "as if the goodness you saw in me", "made the goodness in you less true."] },
+  { mark: "03", label: "Our return", lines: ["But I was never too good for you.", "I was simply close enough to recognize", "the genuine, sincere, caring heart", "that could not yet recognize itself."] },
+  { mark: "04", label: "Same room", lines: ["The miles are not an answer, only geography.", "Our answer was returning more honestly.", "Until our weather is finally the same,", "I choose you—not an idea of you, but you."] },
 ];
 
 const signalChoices = [
@@ -77,6 +90,11 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem("shekinah-blue-between-us", JSON.stringify({ started, unlocked }));
   }, [started, unlocked]);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+  }, [active]);
 
   const unlockNext = (current: Chapter) => {
     const index = chapters.findIndex((chapter) => chapter.id === current);
@@ -231,29 +249,59 @@ function SignalGame({ onComplete }: { onComplete: () => void }) {
   const [step, setStep] = useState(0);
   const [wrong, setWrong] = useState<number | null>(null);
   const [message, setMessage] = useState("");
+  const [correct, setCorrect] = useState(false);
   const finished = step >= signalChoices.length;
   const choose = (index: number) => {
+    if (correct) return;
     if (index === signalChoices[step].answer) {
       setMessage(signalChoices[step].reply);
-      window.setTimeout(() => { setStep((value) => value + 1); setMessage(""); setWrong(null); }, 850);
+      setCorrect(true);
     } else {
       setWrong(index);
-      window.setTimeout(() => setWrong(null), 500);
+      window.setTimeout(() => setWrong(null), 650);
     }
+  };
+  const continueSignal = () => {
+    setStep((value) => value + 1);
+    setMessage("");
+    setWrong(null);
+    setCorrect(false);
   };
   return (
     <article className="chapter signal-chapter">
-      <div className="signal-visual" aria-hidden="true"><span className="island marc-island">M<small>here</small></span><div className="signal-line">·　·　·　♡　·　·　·</div><span className="island shekinah-island">S<small>there</small></span></div>
+      <div className={finished ? "signal-visual is-restored" : "signal-visual"} aria-hidden="true">
+        <span className="island marc-island">M<small>here</small></span>
+        <div className="signal-beam">
+          <i /><i /><i />
+          <b>♡</b>
+          <small>{finished ? "signal found · clear and steady" : `searching · ${step} of ${signalChoices.length} notes found`}</small>
+        </div>
+        <span className="island shekinah-island">S<small>there</small></span>
+      </div>
       <div className="signal-copy">
         <p className="eyebrow">Chapter three · The season without a signal</p>
         <h2>We did not return<br />to the same love.<br /><em>We returned better.</em></h2>
         <p className="honest-note">There was a season when you pulled away because you believed I deserved someone better—as if loving you would somehow be unfair to me. I hurt, but I never saw you as a burden. This room does not romanticize the silence; it remembers what we learned after it: you do not have to disqualify yourself from a love that sees you clearly.</p>
         {!finished ? <div className="choice-game">
-          <div className="choice-progress">{signalChoices.map((_, i) => <i key={i} className={i < step ? "done" : i === step ? "now" : ""} />)}</div>
+          <div className="choice-progress" aria-label={`Question ${step + 1} of ${signalChoices.length}`}>{signalChoices.map((_, i) => <i key={i} className={i < step ? "done" : i === step ? "now" : ""} />)}<span>{step + 1} / {signalChoices.length}</span></div>
           <h3>{signalChoices[step].prompt}</h3>
-          <div>{signalChoices[step].options.map((option, index) => <button key={option} className={wrong === index ? "wrong" : ""} onClick={() => choose(index)}><span>{String.fromCharCode(65 + index)}</span>{option}</button>)}</div>
-          <small>{message || "Choose what our better love sounds like."}</small>
-        </div> : <div className="signal-restored"><span>signal restored</span><h3>Space without abandonment.<br />Honesty without punishment.<br />Love without losing ourselves.</h3><button className="primary-button small" onClick={onComplete}><span>Plant what we learned</span><b>→</b></button></div>}
+          <div className="choice-options">{signalChoices[step].options.map((option, index) => {
+            const isAnswer = index === signalChoices[step].answer;
+            const className = wrong === index ? "wrong" : correct && isAnswer ? "correct" : "";
+            return <button key={option} className={className} disabled={correct} onClick={() => choose(index)}><span>{correct && isAnswer ? "✓" : String.fromCharCode(65 + index)}</span>{option}</button>;
+          })}</div>
+          {!correct ? <small className="choice-hint">Choose what our better love sounds like.</small> : <div className="answer-reveal" role="status">
+            <span>frequency found</span>
+            <p>{message}</p>
+            <button onClick={continueSignal}>{step === signalChoices.length - 1 ? "Complete the signal" : "Let the next note arrive"} <b>→</b></button>
+          </div>}
+        </div> : <div className="signal-restored">
+          <span>✦ signal restored ✦</span>
+          <h3>The signal is not merely back.<br />It is clearer than before.</h3>
+          <p>Space without abandonment. Honesty without punishment. A love where fear can speak—and neither of us has to disappear.</p>
+          <div className="signal-vow"><i>01</i><b>I see you.</b><i>02</i><b>I hear you.</b><i>03</i><b>I am still here.</b></div>
+          <button className="primary-button small" onClick={onComplete}><span>Plant what we learned</span><b>→</b></button>
+        </div>}
       </div>
     </article>
   );
@@ -261,20 +309,64 @@ function SignalGame({ onComplete }: { onComplete: () => void }) {
 
 function LilyGarden({ onComplete }: { onComplete: () => void }) {
   const [bloomed, setBloomed] = useState<number[]>([]);
-  const bloom = (index: number) => setBloomed((items) => items.includes(index) ? items : [...items, index]);
+  const [activeLily, setActiveLily] = useState<number | null>(null);
+  const complete = bloomed.length === lilyNotes.length;
+  const bloom = (index: number) => {
+    setBloomed((items) => items.includes(index) ? items : [...items, index]);
+    setActiveLily(index);
+  };
+  const activeNote = activeLily === null ? null : lilyNotes[activeLily];
   return (
     <article className="chapter garden-chapter">
-      <div className="section-heading light">
-        <p className="eyebrow">Chapter four · A garden made of noticing</p>
-        <h2>Six white lilies.<br /><em>Six things I need you to know.</em></h2>
-        <p>Tap each closed lily. Affection lives in the details we keep seeing.</p>
+      <div className="garden-layout">
+        <div className="garden-copy">
+          <p className="eyebrow">Chapter four · A moonlit garden of being seen</p>
+          <h2>Every lily keeps<br /><em>one truth about you.</em></h2>
+          <p className="garden-intro">Bloom them slowly. This is not a list of compliments; it is a garden made from the parts of you I keep noticing.</p>
+          <div className={activeNote ? "truth-card visible" : "truth-card"} aria-live="polite">
+            {activeNote ? <>
+              <span>{activeNote.mark} · a truth in bloom</span>
+              <h3>{activeNote.title}</h3>
+              <p>{activeNote.body}</p>
+            </> : <>
+              <span>the garden is waiting</span>
+              <h3>Choose the first closed lily.</h3>
+              <p>Each flower opens into a thought I never want you to forget.</p>
+            </>}
+          </div>
+          <div className="garden-progress" aria-label={`${bloomed.length} of ${lilyNotes.length} truths blooming`}>
+            <div>{lilyNotes.map((note, index) => <i key={note.mark} className={bloomed.includes(index) ? "lit" : ""} />)}</div>
+            <span>{bloomed.length} / {lilyNotes.length} truths blooming</span>
+          </div>
+          {complete && <div className="garden-completion">
+            <span>✦ the whole garden can see you now ✦</span>
+            <p>You never had to become perfect to deserve this garden. You only had to be seen—genuinely, patiently, and as yourself.</p>
+            <button className="ivory-button" onClick={onComplete}>Carry these truths toward someday →</button>
+          </div>}
+        </div>
+        <div className={complete ? "garden-scene garden-complete" : "garden-scene"}>
+          <div className="garden-moon" aria-hidden="true" />
+          <div className="garden-fireflies" aria-hidden="true">·　✦　　·　　✧　·　　✦</div>
+          <div className="garden">
+            {lilyNotes.map((note, index) => {
+              const isBloomed = bloomed.includes(index);
+              return <button
+                key={note.mark}
+                onClick={() => bloom(index)}
+                className={isBloomed ? "lily bloomed" : "lily"}
+                aria-pressed={isBloomed}
+                aria-label={isBloomed ? `Read truth ${note.mark}: ${note.title}` : `Bloom lily ${note.mark}`}
+                style={{ "--stem-height": `${note.stem}px`, "--lean": `${note.lean}deg`, "--bloom-delay": `${index * 45}ms` } as React.CSSProperties}
+              >
+                <span className="petals"><i /><i /><i /><i /><i /><b>✦</b></span>
+                <span className="stem"><i /><i /></span>
+                <small>{isBloomed ? note.mark : "·"}</small>
+              </button>;
+            })}
+          </div>
+          <div className="garden-ground" aria-hidden="true" />
+        </div>
       </div>
-      <div className="garden">
-        {lilyNotes.map((note, index) => <button key={note} onClick={() => bloom(index)} className={bloomed.includes(index) ? "lily bloomed" : "lily"} aria-label={bloomed.includes(index) ? note : `Bloom lily ${index + 1}`}>
-          <span className="petals"><i /><i /><i /><i /><i /><b>✦</b></span><span className="stem" /><small>{bloomed.includes(index) ? note : "touch to bloom"}</small>
-        </button>)}
-      </div>
-      <div className="garden-footer"><span>{bloomed.length} of 6 truths blooming</span>{bloomed.length === 6 && <button className="ivory-button" onClick={onComplete}>Walk toward someday →</button>}</div>
     </article>
   );
 }
@@ -282,21 +374,42 @@ function LilyGarden({ onComplete }: { onComplete: () => void }) {
 function FutureRoom({ onComplete }: { onComplete: () => void }) {
   const [note, setNote] = useState<"bogart" | "jelly" | null>(null);
   const [opened, setOpened] = useState<string[]>([]);
+  const [lit, setLit] = useState<number[]>([]);
+  const roomReady = lit.length === futureMoments.length;
   const open = (name: "bogart" | "jelly") => { setNote(name); setOpened((items) => items.includes(name) ? items : [...items, name]); };
+  const lightMoment = (index: number) => setLit((items) => items.includes(index) ? items : [...items, index]);
   return (
     <article className="chapter future-chapter">
-      <div className="future-window"><div className="window-sky">✦　　·　✧</div><div className="window-city">⌂　⌂　　⌂</div></div>
-      <div className="future-copy">
-        <p className="eyebrow">Chapter five · Not a promise to rush</p>
-        <h2>A future can be held<br /><em>gently, not tightly.</em></h2>
-        <p>We have not shared a table yet. We have not taken the first real-life photo. So this is not pretending we are already there. It is a window left open for the life we hope to earn, one honest day at a time.</p>
-        <div className="future-cards">
-          <button onClick={() => open("bogart")}><span>01 · Bogart</span><b>Little Marc</b><small>a letter for our maybe-boy</small></button>
-          <button onClick={() => open("jelly")}><span>02 · Jelly Bean</span><b>Little Shekinah</b><small>a letter for our maybe-girl</small></button>
+      <div className={roomReady ? "future-window room-ready" : "future-window"}>
+        <div className="window-sky" aria-hidden="true"><span>✦</span><span>·</span><span>✧</span><i /></div>
+        <div className="window-moon" aria-hidden="true" />
+        <div className="window-city" aria-hidden="true">
+          <i className={lit.includes(0) ? "lit" : ""} /><i className={lit.includes(1) ? "lit" : ""} /><i className={lit.includes(2) ? "lit" : ""} />
         </div>
-        {note === "bogart" && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close Little Marc's letter">×</button><p>Dear Little Marc—our Bogart,</p><h3>If someday you become more than the nickname we smile about now, I hope you inherit your mama&apos;s sincere heart and learn from both of us that gentleness never makes a boy less brave. Long before we could hold you, you were our way of picturing breakfast noise, scraped knees, curious questions, and a home built honestly—one conversation at a time.</h3><small>Love, Mama Shekinah and Papa Marc</small></div>}
-        {note === "jelly" && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close Little Shekinah's letter">×</button><p>Dear Little Shekinah—our Jelly Bean,</p><h3>You began as a little sweetness tucked inside a future we speak about carefully. If we meet you someday, I hope you carry your mama&apos;s tenderness and always know it is a strength. You never have to earn your place in a loving home or become smaller to be kept; you would be wanted as your own whole, bright, wonderfully strange self.</h3><small>Love, Mama Shekinah and Papa Marc</small></div>}
-        {opened.length === 2 && !note && <button className="primary-button small" onClick={onComplete}><span>Open the last letter</span><b>→</b></button>}
+        <div className="window-caption"><span>{roomReady ? "three little lights are waiting" : `${lit.length} of 3 future lights awake`}</span><b>M　♡　S</b></div>
+      </div>
+      <div className="future-copy">
+        <p className="eyebrow">Chapter five · The someday room</p>
+        <h2>Light the moments<br /><em>we refuse to rush.</em></h2>
+        <p>We have not shared a table yet. We have not taken the first real-life photo. So this is not pretending we are already there. It is a window left open for the life we hope to earn, one honest day at a time.</p>
+        <div className="future-lights">
+          {futureMoments.map((moment, index) => <button key={moment.mark} onClick={() => lightMoment(index)} className={lit.includes(index) ? "lit" : ""} aria-pressed={lit.includes(index)}>
+            <span>{lit.includes(index) ? "✦" : moment.mark}</span><b>{moment.title}</b><small>{lit.includes(index) ? moment.note : "touch to imagine gently"}</small>
+          </button>)}
+        </div>
+        {!roomReady ? <p className="future-whisper">When all three lights are awake, two small letters will appear.</p> : <div className="letters-stage">
+          <div className="letters-heading"><span>Two letters kept for a possible someday</span><b>{opened.length} / 2 opened</b></div>
+          <div className="future-cards">
+            <button className={`envelope bogart ${opened.includes("bogart") ? "opened" : ""} ${note === "bogart" ? "selected" : ""}`} onClick={() => open("bogart")} aria-expanded={note === "bogart"}><span>{opened.includes("bogart") ? "✓ opened · Bogart" : "01 · Bogart"}</span><b>Little Marc</b><small>navy envelope · our maybe-boy</small><i>⌁</i></button>
+            <button className={`envelope jelly ${opened.includes("jelly") ? "opened" : ""} ${note === "jelly" ? "selected" : ""}`} onClick={() => open("jelly")} aria-expanded={note === "jelly"}><span>{opened.includes("jelly") ? "✓ opened · Jelly Bean" : "02 · Jelly Bean"}</span><b>Little Shekinah</b><small>lily-blue envelope · our maybe-girl</small><i>✿</i></button>
+          </div>
+          <div className={`letter-reader ${note ? `reading-${note}` : ""}`} aria-live="polite">
+            {!note && <div className="letter-placeholder"><span>♡</span><p>Choose either envelope. Both letters are different because both little lights are their own person.</p></div>}
+            {note === "bogart" && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close Little Marc's letter">×</button><p>Dear Little Marc—our Bogart,</p><h3>If someday you become more than the nickname we smile about now, I hope you inherit your mama&apos;s sincere heart and learn from both of us that gentleness never makes a boy less brave. Long before we could hold you, you were our way of picturing breakfast noise, scraped knees, curious questions, and a home built honestly—one conversation at a time.</h3><small>Love, Mama Shekinah and Papa Marc</small></div>}
+            {note === "jelly" && <div className="future-letter"><button onClick={() => setNote(null)} aria-label="Close Little Shekinah's letter">×</button><p>Dear Little Shekinah—our Jelly Bean,</p><h3>You began as a little sweetness tucked inside a future we speak about carefully. If we meet you someday, I hope you carry your mama&apos;s tenderness and always know it is a strength. You never have to earn your place in a loving home or become smaller to be kept; you would be wanted as your own whole, bright, wonderfully strange self.</h3><small>Love, Mama Shekinah and Papa Marc</small></div>}
+          </div>
+          {opened.length === 2 && <div className="future-completion"><span>✦ both little lights found ✦</span><p>The future is still unwritten. That is what makes imagining it together so tender.</p><button className="primary-button small" onClick={onComplete}><span>Open the last room</span><b>→</b></button></div>}
+        </div>}
       </div>
     </article>
   );
@@ -304,20 +417,40 @@ function FutureRoom({ onComplete }: { onComplete: () => void }) {
 
 function Finale() {
   const [yes, setYes] = useState(false);
+  const [revealed, setRevealed] = useState(1);
+  const [sent, setSent] = useState(false);
+  const allRevealed = revealed === finaleStanzas.length;
+  const resetFinale = () => { setYes(false); setSent(false); setRevealed(1); };
+  const classes = ["chapter", "finale-chapter", sent ? "signal-sent" : "", yes ? "celebrated" : ""].filter(Boolean).join(" ");
   return (
-    <article className={yes ? "chapter finale-chapter celebrated" : "chapter finale-chapter"}>
-      <div className="final-lily" aria-hidden="true"><span>✦</span></div>
+    <article className={classes}>
+      <div className="final-visual" aria-hidden="true">
+        <div className={sent ? "final-lily bloomed" : "final-lily"}><span>✦</span></div>
+        <div className={sent ? "final-signal sent" : "final-signal"}><span>M</span><i /><b>♡</b><i /><span>S</span></div>
+        <small>{sent ? "signal received" : "four stars across the blue"}</small>
+      </div>
       <div className="poem-card">
         <p className="eyebrow">The last room · for Shekinah</p>
-        <h2>Before the first hello<br /><em>in the same room</em></h2>
-        <div className="poem">
-          <p>I found you where strangers went to pass an hour,<br />on one ordinary page called ChatKool.<br />No room held us, no hands met—<br />yet something in me stopped wandering.</p>
-          <p>There was a season you chose silence,<br />thinking it might protect me from loving you;<br />as if the goodness you saw in me<br />made the goodness in you less true.</p>
-          <p>But I was never too good for you.<br />I was simply close enough to recognize<br />the genuine, sincere, caring heart<br />that could not yet recognize itself.</p>
-          <p>The miles are not an answer, only geography.<br />Our answer was returning more honestly.<br />Until our weather is finally the same,<br />I choose you—not an idea of you, but you.</p>
+        <h2>Four stars before<br /><em>the same-room hello.</em></h2>
+        <div className="final-constellation" aria-label={`${revealed} of ${finaleStanzas.length} memories revealed`}>
+          <div className="constellation-line"><i style={{ width: `${((revealed - 1) / (finaleStanzas.length - 1)) * 100}%` }} /></div>
+          {finaleStanzas.map((stanza, index) => <div key={stanza.mark} className={index < revealed ? "revealed" : ""}><b>{index < revealed ? "✦" : "·"}</b><span>{stanza.label}</span></div>)}
         </div>
-        <p className="signed">Yours, across every blue mile,<br /><b>Marc Ramon Emmanuel C. De Angel</b></p>
-        {!yes ? <div className="final-question"><p>Shekinah, will you keep choosing this strange, honest, growing love with me?</p><button onClick={() => setYes(true)}>Yes, still us ♡</button></div> : <div className="yes-moment"><div className="floating-hearts" aria-hidden="true">♡　✦　♡　·　♡　✦　♡</div><span>then the distance is only a chapter.</span><h3>Not the ending.</h3><p>M + S · still becoming · still choosing</p></div>}
+        <div className="poem interactive-poem">
+          {finaleStanzas.slice(0, revealed).map((stanza) => <p key={stanza.mark}><span>{stanza.mark} · {stanza.label}</span>{stanza.lines.map((line) => <span key={line}>{line}</span>)}</p>)}
+        </div>
+        {!allRevealed && <button className="reveal-star" onClick={() => setRevealed((value) => value + 1)}><span>Reveal star {revealed + 1}: {finaleStanzas[revealed].label}</span><b>✦</b></button>}
+        {allRevealed && !sent && <div className="send-heart">
+          <span>all four stars are awake</span>
+          <p>There is one last thing to send across the miles.</p>
+          <button onClick={() => setSent(true)}>Send my heart from M to S <b>♡</b></button>
+        </div>}
+        {sent && <div className="final-received">
+          <span>✦ signal received, Shekinah ✦</span>
+          <h3>Until our first hello in the same room, I will keep meeting you here—honestly.</h3>
+          <p className="signed">Yours, across every blue mile,<br /><b>Marc Ramon Emmanuel C. De Angel</b></p>
+          {!yes ? <div className="final-question"><p>Shekinah, will you keep choosing this strange, honest, growing love with me?</p><button onClick={() => setYes(true)}>Yes, still us ♡</button></div> : <div className="yes-moment"><div className="floating-hearts" aria-hidden="true">♡　✦　♡　·　♡　✦　♡</div><span>then the miles are only part of the map.</span><h3>Still us. Still choosing.</h3><p>M + S · 99% twins · 100% compatible</p><button onClick={resetFinale}>Read our stars again ↺</button></div>}
+        </div>}
       </div>
     </article>
   );
