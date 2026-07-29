@@ -204,13 +204,13 @@ h1 em,h2 em { color:#a9d5f7; font-weight:400; }
 .arrival-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:28px}
 .arrival-facts>div{min-width:0;padding:14px 12px;border-top:1px solid #aebfc9;border-bottom:1px solid #aebfc9}
 .arrival-facts span{display:block;text-transform:uppercase;letter-spacing:.17em;font-size:7px;color:#718897;margin-bottom:6px}
-.arrival-facts b{font:400 clamp(14px,1.5vw,18px) "Italiana";color:#174a6e;word-break:break-word}
+.arrival-facts b{font:400 clamp(13px,1.3vw,17px) "Italiana";color:#174a6e;white-space:nowrap;overflow-wrap:normal;word-break:keep-all;}
 .connection-archive{min-width:0;min-height:590px;border:1px solid #6aa4c04d;border-radius:28px;overflow:hidden;background:linear-gradient(155deg,#061b31,#104b70);color:#eef9ff;box-shadow:0 28px 75px #143f5c35;position:relative;display:flex;flex-direction:column;transition:.7s}
 .connection-archive:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 35%,#83d7ff16,transparent 35%)}
 .archive-header{position:relative;z-index:2;display:flex;justify-content:space-between;gap:18px;padding:17px 20px;border-bottom:1px solid #7cb6d12c;background:#061a2b77;text-transform:uppercase;letter-spacing:.17em;font-size:7px;color:#9cc9de}
 .archive-header b{color:#e8f9ff;font-size:8px}
 .archive-sky{position:relative;min-height:245px;display:flex;align-items:center;justify-content:space-between;padding:35px 32px 18px}
-.archive-stars{position:absolute;inset:15% 8% auto;color:#bce8fa;letter-spacing:.9em;opacity:.55}
+.archive-stars{position:absolute;top:15%;left:50%;transform:translateX(-50%);width:80%;text-align:center;color:#bce8fa;letter-spacing:1.2em;opacity:.55;}
 .archive-beacon{position:relative;z-index:3;width:72px;height:72px;border:1px solid #74b7d4;border-radius:50%;display:grid;place-items:center;background:#0a3150;font:27px "Italiana";box-shadow:0 0 0 12px #69b6dc0b,0 0 38px #2f9bd040}
 .archive-beacon small{position:absolute;top:82px;width:100px;text-align:center;font:7px "DM Sans";text-transform:uppercase;letter-spacing:.14em;color:#82afc5}
 .shekinah-beacon{background:linear-gradient(145deg,#5b9ec5,#2a648c)}
