@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Chapter = "arrival" | "twins" | "signal" | "garden" | "future" | "finale";
 
@@ -13,11 +13,18 @@ const chapters: { id: Chapter; label: string; mark: string }[] = [
   { id: "finale", label: "For Shekinah", mark: "♡" },
 ];
 
-const twinCards = [
-  { pair: "mind", symbol: "☁", text: "same strange thoughts" },
-  { pair: "laugh", symbol: "⌣", text: "same kind of silly" },
-  { pair: "home", symbol: "⌂", text: "same idea of home" },
-  { pair: "heart", symbol: "♡", text: "different hearts, one rhythm" },
+const arrivalTraces = [
+  { label: "The page", title: "An ordinary corner of the internet.", body: "ChatKool was only a webpage. Neither of us knew it was about to hold a beginning." },
+  { label: "The words", title: "No shared room. Still, we met.", body: "There was no first glance or held hand—only attention finding its way through a screen." },
+  { label: "The staying", title: "The conversation became less ordinary.", body: "Nothing needed a grand entrance. We simply kept discovering reasons not to leave the conversation." },
+  { label: "The recognition", title: "December 28 became ours.", body: "It did not promise our whole future. It gave us a beginning worth continuing." },
+];
+
+const twinFrequencies = [
+  { id: "mind", symbol: "☁", name: "Mind", marc: "follows the strange thought", shekinah: "finds the same hidden path", note: "Your minds do not merely agree. They wander in strangely familiar directions." },
+  { id: "laugh", symbol: "⌣", name: "Silly", marc: "starts the nonsense", shekinah: "somehow makes it funnier", note: "The same kind of silly makes even distance feel less serious for a while." },
+  { id: "home", symbol: "⌂", name: "Home", marc: "imagines the ordinary days", shekinah: "makes them worth waiting for", note: "You picture home in compatible details—not as an escape, but as something honest to build." },
+  { id: "heart", symbol: "♡", name: "Heart", marc: "loves out loud", shekinah: "loves with quiet sincerity", note: "Different ways of showing love can still keep one steady rhythm." },
 ];
 
 const lilyNotes = [
@@ -182,65 +189,125 @@ function Opening({ onStart }: { onStart: () => void }) {
 }
 
 function Arrival({ onComplete }: { onComplete: () => void }) {
-  const [aligned, setAligned] = useState(0);
-  const complete = aligned >= 99;
+  const [trace, setTrace] = useState(0);
+  const complete = trace === arrivalTraces.length - 1;
+  const progress = (trace / (arrivalTraces.length - 1)) * 100;
+  const currentTrace = arrivalTraces[trace];
   return (
     <article className="chapter arrival-chapter">
-      <div className="chapter-copy">
-        <p className="eyebrow">Chapter one · December 28, 2025</p>
-        <h2>The day the world<br />quietly <em>changed shape.</em></h2>
-        <p>I did not find you in a crowded room. There was no cinematic first glance. On ChatKool.com—of all the ordinary corners of the internet—two lives, miles apart, stayed in the same conversation long enough to recognize something extraordinary.</p>
-        <div className="date-card"><span>days since I found you</span><b>{daysBetween()}</b><small>and still discovering more</small></div>
-      </div>
-      <div className="alignment-game">
-        <div className="orbit-field" style={{ "--alignment": `${aligned * 3.6}deg` } as React.CSSProperties}>
-          <div className="orbit orbit-one"><i>M</i></div>
-          <div className="orbit orbit-two"><i>S</i></div>
-          <div className={complete ? "center-star lit" : "center-star"}>✦</div>
+      <div className="arrival-layout">
+        <div className="arrival-copy">
+          <p className="eyebrow">Chapter one · The first connection archive</p>
+          <h2>Nothing looked important.<br /><em>Then you stayed.</em></h2>
+          <p>I did not find you in a crowded room. There was no cinematic first glance—just an ordinary page, two separate screens, and a conversation that slowly stopped feeling accidental.</p>
+          <div className="arrival-facts">
+            <div><span>where</span><b>ChatKool.com</b></div>
+            <div><span>when</span><b>28 · 12 · 2025</b></div>
+            <div><span>since</span><b>{daysBetween()} days</b></div>
+          </div>
         </div>
-        <label htmlFor="alignment"><span>Align our timelines</span><b>{aligned}%</b></label>
-        <input id="alignment" type="range" min="0" max="100" value={aligned} onChange={(e) => setAligned(Number(e.target.value))} />
-        {complete ? (
-          <div className="success-card"><p>Some meetings happen in coordinates.<br /><b>Ours happened in recognition.</b></p><button onClick={onComplete}>Follow the frequency →</button></div>
-        ) : <small>Move the stars until the signal becomes clear.</small>}
+        <div className={complete ? "connection-archive archive-complete" : "connection-archive"} style={{ "--arrival-progress": `${progress}%` } as React.CSSProperties}>
+          <div className="archive-header"><span>CHATKOOL.COM · CONNECTION ARCHIVE</span><b>{complete ? "KEPT" : `TRACE 0${trace + 1}`}</b></div>
+          <div className="archive-sky" aria-hidden="true">
+            <div className="archive-stars">✦　·　　✧　　·　✦　·</div>
+            <span className="archive-beacon marc-beacon">M<small>one screen</small></span>
+            <div className="connection-path"><i /><b>♡</b></div>
+            <span className="archive-beacon shekinah-beacon">S<small>another screen</small></span>
+            <div className="chatkool-node"><small>unexpected meeting place</small><b>ChatKool</b></div>
+          </div>
+          <div className="archive-markers" aria-label={`Trace ${trace + 1} of ${arrivalTraces.length}`}>
+            {arrivalTraces.map((item, index) => <div key={item.label} className={index <= trace ? "found" : ""}><i>{index <= trace ? "✦" : "·"}</i><span>{item.label}</span></div>)}
+          </div>
+          <div className="arrival-trace-card" aria-live="polite">
+            <span>{String(trace + 1).padStart(2, "0")} · {currentTrace.label}</span>
+            <h3>{currentTrace.title}</h3>
+            <p>{currentTrace.body}</p>
+          </div>
+          {!complete ? <button className="archive-action" onClick={() => setTrace((value) => value + 1)}><span>Reveal the next trace</span><b>→</b></button> : <div className="archive-success">
+            <span>✦ connection kept · 28.12.2025 ✦</span>
+            <h3>Some meetings happen in coordinates.<br />Ours happened in recognition.</h3>
+            <button className="primary-button small" onClick={onComplete}><span>Follow the twin frequency</span><b>→</b></button>
+          </div>}
+        </div>
       </div>
     </article>
   );
 }
 
 function TwinGame({ onComplete }: { onComplete: () => void }) {
-  const deck = useMemo(() => [...twinCards, ...twinCards].sort(() => 0.5 - Math.random()), []);
-  const [open, setOpen] = useState<number[]>([]);
+  const [selectedMarc, setSelectedMarc] = useState<string | null>(null);
+  const [selectedShekinah, setSelectedShekinah] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
+  const [feedback, setFeedback] = useState({ title: "Choose one signal from each side.", body: "Compatibility is not about being copies. Find the two expressions that belong to the same frequency." });
+  const [checking, setChecking] = useState(false);
+  const complete = matched.length === twinFrequencies.length;
+  const shekinahOrder = ["home", "mind", "heart", "laugh"];
 
-  const flip = (index: number) => {
-    if (open.length === 2 || open.includes(index) || matched.includes(deck[index].pair)) return;
-    const next = [...open, index];
-    setOpen(next);
-    if (next.length === 2) {
-      if (deck[next[0]].pair === deck[next[1]].pair) {
-        window.setTimeout(() => { setMatched((items) => [...items, deck[index].pair]); setOpen([]); }, 500);
-      } else window.setTimeout(() => setOpen([]), 750);
+  const checkPair = (marcId: string, shekinahId: string) => {
+    setChecking(true);
+    if (marcId === shekinahId) {
+      const frequency = twinFrequencies.find((item) => item.id === marcId)!;
+      setMatched((items) => [...items, marcId]);
+      setFeedback({ title: `${frequency.symbol} ${frequency.name} frequency connected.`, body: frequency.note });
+      window.setTimeout(() => { setSelectedMarc(null); setSelectedShekinah(null); setChecking(false); }, 450);
+    } else {
+      setFeedback({ title: "Close—this signal belongs somewhere else.", body: "The right match will feel less like sameness and more like two expressions recognizing one another." });
+      window.setTimeout(() => { setSelectedMarc(null); setSelectedShekinah(null); setChecking(false); }, 650);
     }
   };
 
+  const chooseMarc = (id: string) => {
+    if (checking || matched.includes(id)) return;
+    setSelectedMarc(id);
+    if (selectedShekinah) checkPair(id, selectedShekinah);
+  };
+
+  const chooseShekinah = (id: string) => {
+    if (checking || matched.includes(id)) return;
+    setSelectedShekinah(id);
+    if (selectedMarc) checkPair(selectedMarc, id);
+  };
+
   return (
-    <article className="chapter twin-chapter">
-      <div className="section-heading">
-        <p className="eyebrow">Chapter two · 99% similar, 100% compatible</p>
-        <h2>Find the <em>matching frequencies.</em></h2>
-        <p>Not copies. Not halves. Two complete people with an almost suspicious amount in common.</p>
+    <article className={complete ? "chapter twin-chapter observatory-complete" : "chapter twin-chapter"}>
+      <div className="twin-layout">
+        <div className="twin-copy">
+          <p className="eyebrow">Chapter two · The twin observatory</p>
+          <h2>Not copies.<br /><em>Compatible constellations.</em></h2>
+          <p>Choose one Marc signal and one Shekinah signal. Match what sounds different but belongs to the same part of your shared frequency.</p>
+          <div className="twin-discovery" aria-live="polite">
+            <span>{complete ? "all frequencies alive" : `${matched.length} of ${twinFrequencies.length} connected`}</span>
+            <h3>{complete ? "99% familiar. 1% still yours to discover." : feedback.title}</h3>
+            <p>{complete ? "100% compatible—not because you are copies, but because your differences know how to make room." : feedback.body}</p>
+          </div>
+          <div className="twin-progress">{twinFrequencies.map((frequency) => <div key={frequency.id} className={matched.includes(frequency.id) ? "matched" : ""}><i>{matched.includes(frequency.id) ? frequency.symbol : "·"}</i><span>{frequency.name}</span></div>)}</div>
+        </div>
+        <div className="observatory-board">
+          <div className="observatory-header"><span>MARC · SIGNAL BANK</span><b>≈</b><span>SHEKINAH · SIGNAL BANK</span></div>
+          <div className="twin-constellation" aria-hidden="true">
+            <span>M</span>
+            <div>{twinFrequencies.map((frequency) => <i key={frequency.id} className={matched.includes(frequency.id) ? "live" : ""}>{matched.includes(frequency.id) ? frequency.symbol : "·"}</i>)}</div>
+            <span>S</span>
+          </div>
+          <div className="signal-banks">
+            <div className="signal-bank marc-bank">
+              <small>choose from Marc</small>
+              {twinFrequencies.map((frequency) => <button key={frequency.id} className={`${selectedMarc === frequency.id ? "selected" : ""} ${matched.includes(frequency.id) ? "matched" : ""}`} disabled={matched.includes(frequency.id)} aria-pressed={selectedMarc === frequency.id || matched.includes(frequency.id)} onClick={() => chooseMarc(frequency.id)}><span>{frequency.symbol}</span><b>{frequency.marc}</b></button>)}
+            </div>
+            <div className="signal-bank shekinah-bank">
+              <small>choose from Shekinah</small>
+              {shekinahOrder.map((id) => {
+                const frequency = twinFrequencies.find((item) => item.id === id)!;
+                return <button key={frequency.id} className={`${selectedShekinah === frequency.id ? "selected" : ""} ${matched.includes(frequency.id) ? "matched" : ""}`} disabled={matched.includes(frequency.id)} aria-pressed={selectedShekinah === frequency.id || matched.includes(frequency.id)} onClick={() => chooseShekinah(frequency.id)}><span>{frequency.symbol}</span><b>{frequency.shekinah}</b></button>;
+              })}
+            </div>
+          </div>
+          {complete && <div className="twin-completion">
+            <span>✦ two complete people · one living constellation ✦</span>
+            <button className="primary-button small" onClick={onComplete}><span>Enter the quiet chapter</span><b>→</b></button>
+          </div>}
+        </div>
       </div>
-      <div className="memory-grid">
-        {deck.map((card, index) => {
-          const visible = open.includes(index) || matched.includes(card.pair);
-          return <button key={`${card.pair}-${index}`} className={visible ? "memory-card revealed" : "memory-card"} onClick={() => flip(index)} aria-label={visible ? card.text : "Hidden frequency"}>
-            <span className="card-back">S</span><span className="card-face"><b>{card.symbol}</b><small>{card.text}</small></span>
-          </button>;
-        })}
-      </div>
-      <div className="game-status"><span>{matched.length} / 4 frequencies found</span><div><i style={{ width: `${matched.length * 25}%` }} /></div></div>
-      {matched.length === 4 && <div className="completion-note"><p><b>99%</b> familiar. <b>1%</b> mystery.<br />Enough sameness to feel known; enough difference to keep discovering.</p><button className="primary-button small" onClick={onComplete}><span>Enter the quiet chapter</span><b>→</b></button></div>}
     </article>
   );
 }
