@@ -276,9 +276,9 @@ function TwinGame({ onComplete }: { onComplete: () => void }) {
           <h2>Not copies.<br /><em>Compatible constellations.</em></h2>
           <p>Choose one Marc signal and one Shekinah signal. Match what sounds different but belongs to the same part of our shared frequency.</p>
           <div className="twin-discovery" aria-live="polite">
-            <span>{complete ? "all frequencies alive" : `${matched.length} of ${twinFrequencies.length} connected`}</span>
-            <h3>{complete ? "99% familiar. 1% still yours to discover." : feedback.title}</h3>
-            <p>{complete ? "100% compatible—not because we are copies, but because our differences know how to make room." : feedback.body}</p>
+            <span>{complete ? "4 of 4 connected · final frequency" : `${matched.length} of ${twinFrequencies.length} connected`}</span>
+            <h3>{feedback.title}</h3>
+            <p>{feedback.body}</p>
           </div>
           <div className="twin-progress">{twinFrequencies.map((frequency) => <div key={frequency.id} className={matched.includes(frequency.id) ? "matched" : ""}><i>{matched.includes(frequency.id) ? frequency.symbol : "·"}</i><span>{frequency.name}</span></div>)}</div>
         </div>
@@ -304,6 +304,8 @@ function TwinGame({ onComplete }: { onComplete: () => void }) {
           </div>
           {complete && <div className="twin-completion">
             <span>✦ two complete people · one living constellation ✦</span>
+            <h3>99% familiar. 1% still ours to discover.</h3>
+            <p>100% compatible—not because we are copies, but because our differences know how to make room.</p>
             <button className="primary-button small" onClick={onComplete}><span>Enter the quiet chapter</span><b>→</b></button>
           </div>}
         </div>
