@@ -305,7 +305,7 @@ function TwinGame({ onComplete }: { onComplete: () => void }) {
           {complete && <div className="twin-completion">
             <span>✦ two complete people · one living constellation ✦</span>
             <h3>99% familiar. 1% still waiting for us to discover.</h3>
-            <p>100% compatible—not because we are copies, but because our differences know how to make room.</p>
+            <p>100% compatible: suspiciously alike, entirely ourselves, and somehow even better together.</p>
             <button className="primary-button small" onClick={onComplete}><span>Enter the quiet chapter</span><b>→</b></button>
           </div>}
         </div>
