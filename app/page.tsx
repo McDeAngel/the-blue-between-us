@@ -443,30 +443,43 @@ function LilyGarden({ onComplete }: { onComplete: () => void }) {
 function FutureRoom({ onComplete }: { onComplete: () => void }) {
   const [note, setNote] = useState<"bogart" | "jelly" | null>(null);
   const [opened, setOpened] = useState<string[]>([]);
-  const [lit, setLit] = useState<number[]>([]);
-  const roomReady = lit.length === futureMoments.length;
+  const [developed, setDeveloped] = useState<number[]>([]);
+  const filmReady = developed.length === futureMoments.length;
   const open = (name: "bogart" | "jelly") => { setNote(name); setOpened((items) => items.includes(name) ? items : [...items, name]); };
-  const lightMoment = (index: number) => setLit((items) => items.includes(index) ? items : [...items, index]);
+  const developMoment = (index: number) => setDeveloped((items) => items.includes(index) ? items : [...items, index]);
   return (
     <article className="chapter future-chapter">
-      <div className={roomReady ? "future-window room-ready" : "future-window"}>
-        <div className="window-sky" aria-hidden="true"><span>✦</span><span>·</span><span>✧</span><i /></div>
-        <div className="window-moon" aria-hidden="true" />
-        <div className="window-city" aria-hidden="true">
-          <i className={lit.includes(0) ? "lit" : ""} /><i className={lit.includes(1) ? "lit" : ""} /><i className={lit.includes(2) ? "lit" : ""} />
+      <div className={filmReady ? "future-film film-ready" : "future-film"} role="img" aria-label={`${developed.length} of 3 future photographs developed`}>
+        <div className="film-header"><span>M + S · UNDEVELOPED ROLL</span><b>{String(developed.length).padStart(2, "0")} / 03</b></div>
+        <div className="film-strip" aria-hidden="true">
+          <div className={developed.includes(0) ? "future-frame hello-frame developed" : "future-frame hello-frame"}>
+            <span>01</span>
+            <div className="hello-photo"><i /><b>✦</b><i /></div>
+            <small>{developed.includes(0) ? "our first same-room hello" : "memory waiting for light"}</small>
+          </div>
+          <div className={developed.includes(1) ? "future-frame meal-frame developed" : "future-frame meal-frame"}>
+            <span>02</span>
+            <div className="meal-photo"><i /><b>♡</b><i /></div>
+            <small>{developed.includes(1) ? "our first shared meal" : "memory waiting for light"}</small>
+          </div>
+          <div className={developed.includes(2) ? "future-frame lilies-frame developed" : "future-frame lilies-frame"}>
+            <span>03</span>
+            <div className="lilies-photo"><i /><b>✿　✿　✿</b><i /></div>
+            <small>{developed.includes(2) ? "white lilies, from my hands to yours" : "memory waiting for light"}</small>
+          </div>
         </div>
-        <div className="window-caption"><span>{roomReady ? "three little lights are waiting" : `${lit.length} of 3 future lights awake`}</span><b>M　♡　S</b></div>
+        <div className="film-caption"><span>{filmReady ? "our first memories are still waiting to be made" : "develop each frame gently"}</span><b>M　♡　S</b></div>
       </div>
       <div className="future-copy">
         <p className="eyebrow">Chapter five · The someday room</p>
-        <h2>Light the moments<br /><em>we refuse to rush.</em></h2>
-        <p>We have not shared a table yet. We have not taken the first real-life photo. So this is not pretending we are already there. It is a window left open for the life we hope to earn, one honest day at a time.</p>
+        <h2>Develop the moments<br /><em>we refuse to rush.</em></h2>
+        <p>We have not shared a table yet. We have not taken the first real-life photo. So this is not pretending we are already there. These are three undeveloped frames for moments we hope to make real, one honest day at a time.</p>
         <div className="future-lights">
-          {futureMoments.map((moment, index) => <button key={moment.mark} onClick={() => lightMoment(index)} className={lit.includes(index) ? "lit" : ""} aria-pressed={lit.includes(index)}>
-            <span>{lit.includes(index) ? "✦" : moment.mark}</span><b>{moment.title}</b><small>{lit.includes(index) ? moment.note : "touch to imagine gently"}</small>
+          {futureMoments.map((moment, index) => <button key={moment.mark} onClick={() => developMoment(index)} className={developed.includes(index) ? "lit" : ""} aria-pressed={developed.includes(index)}>
+            <span>{developed.includes(index) ? "✦" : moment.mark}</span><b>{moment.title}</b><small>{developed.includes(index) ? moment.note : "touch to develop gently"}</small>
           </button>)}
         </div>
-        {!roomReady ? <p className="future-whisper">When all three lights are awake, two small letters will appear.</p> : <div className="letters-stage">
+        {!filmReady ? <p className="future-whisper">When all three frames have developed, two small letters will appear.</p> : <div className="letters-stage">
           <div className="letters-heading"><span>Two letters kept for a possible someday</span><b>{opened.length} / 2 opened</b></div>
           <div className="future-cards">
             <button className={`envelope bogart ${opened.includes("bogart") ? "opened" : ""} ${note === "bogart" ? "selected" : ""}`} onClick={() => open("bogart")} aria-expanded={note === "bogart"}><span>{opened.includes("bogart") ? "✓ opened · Bogart" : "01 · Bogart"}</span><b>Little Marc</b><small>navy envelope · our maybe-boy</small><i>⌁</i></button>
