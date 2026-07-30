@@ -33,7 +33,7 @@ const lilyNotes = [
   { mark: "03", title: "Ordinary, discovered.", body: "You make ordinary hours feel discovered. Even a small conversation with you can change the weather of my whole day.", stem: 205, lean: -1 },
   { mark: "04", title: "Space can stay loved.", body: "You are allowed to need space without believing love will leave. I want your honesty, never a performance.", stem: 218, lean: 4 },
   { mark: "05", title: "We learned on purpose.", body: "I admire not only how deeply we felt, but how bravely we learned to meet each other better.", stem: 185, lean: -3 },
-  { mark: "06", title: "The real you.", body: "I choose the real you—not an imagined perfect version, not someone easier. Simply Shekinah.", stem: 224, lean: 2 },
+  { mark: "06", title: "Every version belongs.", body: "I love the Shekinah who laughs, the Shekinah who thinks too much, the one who needs quiet, and the one still learning to receive love. None of you has to be edited out. To me, you're perfectly, imperfectly perfect as you are.", stem: 224, lean: 2 },
 ];
 
 const futureMoments = [
