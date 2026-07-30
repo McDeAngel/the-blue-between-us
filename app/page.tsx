@@ -21,10 +21,10 @@ const arrivalTraces = [
 ];
 
 const twinFrequencies = [
-  { id: "mind", symbol: "☁", name: "Mind", marc: "follows the strange thought", shekinah: "finds the same hidden path", note: "Your minds do not merely agree. They wander in strangely familiar directions." },
-  { id: "laugh", symbol: "⌣", name: "Silly", marc: "starts the nonsense", shekinah: "somehow makes it funnier", note: "The same kind of silly makes even distance feel less serious for a while." },
-  { id: "home", symbol: "⌂", name: "Home", marc: "imagines the ordinary days", shekinah: "makes them worth waiting for", note: "You picture home in compatible details—not as an escape, but as something honest to build." },
-  { id: "heart", symbol: "♡", name: "Heart", marc: "loves out loud", shekinah: "loves with quiet sincerity", note: "Different ways of showing love can still keep one steady rhythm." },
+  { id: "mind", symbol: "☁", name: "Mind", marc: "follows the strange thought", shekinah: "finds the same hidden path", note: "Our minds do not merely agree. They keep finding the same hidden page—maybe that is why being each other's twin never felt like an exaggeration." },
+  { id: "laugh", symbol: "⌣", name: "Silly", marc: "laughs hysterically first", shekinah: "catches it with her silly laugh", note: "I am usually the first one laughing hysterically. Then your silly laugh catches mine, and somehow we end up laughing at the fact that we are still laughing." },
+  { id: "home", symbol: "⌂", name: "Home", marc: "imagines the ordinary days", shekinah: "makes them worth waiting for", note: "We picture home in compatible details—not as an escape, but as something honest to build: ordinary days, one room, and a white lily sharing the same weather with us." },
+  { id: "heart", symbol: "♡", name: "Heart", marc: "loves always, in all ways", shekinah: "loves in the very same language", note: "Our hearts love in the same language: always, in all ways. Loudly, quietly, patiently, and honestly—even after the seasons that taught us how to return better." },
 ];
 
 const lilyNotes = [
@@ -274,11 +274,11 @@ function TwinGame({ onComplete }: { onComplete: () => void }) {
         <div className="twin-copy">
           <p className="eyebrow">Chapter two · The twin observatory</p>
           <h2>Not copies.<br /><em>Compatible constellations.</em></h2>
-          <p>Choose one Marc signal and one Shekinah signal. Match what sounds different but belongs to the same part of your shared frequency.</p>
+          <p>Choose one Marc signal and one Shekinah signal. Match what sounds different but belongs to the same part of our shared frequency.</p>
           <div className="twin-discovery" aria-live="polite">
             <span>{complete ? "all frequencies alive" : `${matched.length} of ${twinFrequencies.length} connected`}</span>
             <h3>{complete ? "99% familiar. 1% still yours to discover." : feedback.title}</h3>
-            <p>{complete ? "100% compatible—not because you are copies, but because your differences know how to make room." : feedback.body}</p>
+            <p>{complete ? "100% compatible—not because we are copies, but because our differences know how to make room." : feedback.body}</p>
           </div>
           <div className="twin-progress">{twinFrequencies.map((frequency) => <div key={frequency.id} className={matched.includes(frequency.id) ? "matched" : ""}><i>{matched.includes(frequency.id) ? frequency.symbol : "·"}</i><span>{frequency.name}</span></div>)}</div>
         </div>
