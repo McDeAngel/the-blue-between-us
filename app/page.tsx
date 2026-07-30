@@ -22,7 +22,7 @@ const arrivalTraces = [
 
 const twinFrequencies = [
   { id: "mind", symbol: "☁", name: "Mind", marc: "follows the strange thought", shekinah: "finds the same hidden path", note: "Our minds do not merely agree. They keep finding the same hidden page—maybe that is why being each other's twin never felt like an exaggeration." },
-  { id: "laugh", symbol: "⌣", name: "Silly", marc: "laughs hysterically first", shekinah: "catches it with her silly laugh", note: "I am usually the first one laughing hysterically. Then your silly laugh catches mine, and somehow we end up laughing at the fact that we are still laughing." },
+  { id: "laugh", symbol: "⌣", name: "Silly", marc: "laughs hysterically first", shekinah: "catches it with her cute, silly laugh", note: "I am usually the first one laughing hysterically. Then your cute, silly laugh catches mine, and somehow we end up laughing at the fact that we are still laughing." },
   { id: "home", symbol: "⌂", name: "Home", marc: "imagines the ordinary days", shekinah: "makes them worth waiting for", note: "We picture home in compatible details—not as an escape, but as something honest to build: ordinary days, one room, and a white lily sharing the same weather with us." },
   { id: "heart", symbol: "♡", name: "Heart", marc: "loves always, in all ways", shekinah: "loves in the very same language", note: "Our hearts love in the same language: always, in all ways. Loudly, quietly, patiently, and honestly—even after the seasons that taught us how to return better." },
 ];
@@ -304,7 +304,7 @@ function TwinGame({ onComplete }: { onComplete: () => void }) {
           </div>
           {complete && <div className="twin-completion">
             <span>✦ two complete people · one living constellation ✦</span>
-            <h3>99% familiar. 1% still ours to discover.</h3>
+            <h3>99% familiar. 1% still waiting for us to discover.</h3>
             <p>100% compatible—not because we are copies, but because our differences know how to make room.</p>
             <button className="primary-button small" onClick={onComplete}><span>Enter the quiet chapter</span><b>→</b></button>
           </div>}
@@ -350,7 +350,7 @@ function SignalGame({ onComplete }: { onComplete: () => void }) {
       <div className="signal-copy">
         <p className="eyebrow">Chapter three · The season without a signal</p>
         <h2>We did not return<br />to the same love.<br /><em>We returned better.</em></h2>
-        <p className="honest-note">There was a season when you pulled away because you believed I deserved someone better—as if loving you would somehow be unfair to me. I hurt, but I never saw you as a burden. This room does not romanticize the silence; it remembers what we learned after it: you do not have to disqualify yourself from a love that sees you clearly.</p>
+        <p className="honest-note">There was a season when you pulled away because you believed I deserved someone better—as if loving you would somehow be unfair to me. I was hurt, but I never saw you as a burden. This room does not romanticize the silence; it remembers what we learned after it: you do not have to disqualify yourself from a love that sees you clearly.</p>
         {!finished ? <div className="choice-game">
           <div className="choice-progress" aria-label={`Question ${step + 1} of ${signalChoices.length}`}>{signalChoices.map((_, i) => <i key={i} className={i < step ? "done" : i === step ? "now" : ""} />)}<span>{step + 1} / {signalChoices.length}</span></div>
           <h3>{signalChoices[step].prompt}</h3>
