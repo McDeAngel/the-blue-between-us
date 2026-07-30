@@ -39,7 +39,7 @@ const lilyNotes = [
 const futureMoments = [
   { mark: "01", title: "Our first same-room hello", note: "No screen between the smile and the person." },
   { mark: "02", title: "Our first shared meal", note: "Something ordinary made unforgettable because it is finally ours." },
-  { mark: "03", title: "A white lily in our vase", note: "Not proof that we rushed—proof that someday arrived gently." },
+  { mark: "03", title: "The first white lilies I give you in person", note: "Your favorite flowers, finally handed to you by me instead of imagined from afar." },
 ];
 
 const finaleStanzas = [
