@@ -14,9 +14,9 @@ const chapters: { id: Chapter; label: string; mark: string }[] = [
 ];
 
 const arrivalTraces = [
-  { label: "The page", title: "An ordinary corner of the internet.", body: "ChatKool was only a webpage. Neither of us knew it was about to hold a beginning." },
-  { label: "The words", title: "No shared room. Still, we met.", body: "There was no first glance or held hand—only attention finding its way through a screen." },
-  { label: "The staying", title: "The conversation became less ordinary.", body: "Nothing needed a grand entrance. We simply kept discovering reasons not to leave the conversation." },
+  { label: "The page", title: "An ordinary corner of the internet.", body: "The website was temporary; the conversation was not. We left the page behind without leaving each other there." },
+  { label: "The words", title: "No shared room. Still, we met.", body: "No one formally introduced our souls. They simply behaved as though they had met before, and every conversation kept proving how naturally we belonged together." },
+  { label: "The continuation", title: "One conversation quietly became many.", body: "What began as passing time became time we looked forward to—because somewhere between the replies, being there started to matter." },
   { label: "The recognition", title: "December 28 became ours.", body: "It did not promise our whole future. It gave us a beginning worth continuing." },
 ];
 
