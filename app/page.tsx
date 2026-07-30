@@ -23,7 +23,7 @@ const arrivalTraces = [
 const twinFrequencies = [
   { id: "mind", symbol: "☁", name: "Mind", marc: "follows the strange thought", shekinah: "finds the same hidden path", note: "Our minds do not merely agree. They keep finding the same hidden page—maybe that is why being each other's twin never felt like an exaggeration." },
   { id: "laugh", symbol: "⌣", name: "Silly", marc: "laughs hysterically first", shekinah: "catches it with her cute, silly laugh", note: "I am usually the first one laughing hysterically. Then your cute, silly laugh catches mine, and somehow we end up laughing at the fact that we are still laughing." },
-  { id: "home", symbol: "⌂", name: "Home", marc: "imagines the ordinary days", shekinah: "makes them worth waiting for", note: "We picture home in compatible details—not as an escape, but as something honest to build: ordinary days, one room, and a white lily sharing the same weather with us." },
+  { id: "home", symbol: "⌂", name: "Home", marc: "imagines our ordinary days", shekinah: "pictures those very same days too", note: "Our future home does not have an address yet. We only know that, wherever and whenever it finds us, we have both been imagining its ordinary days—with Bogart, Jelly Bean, shared chaos, and two minds that somehow keep arriving at the same future." },
   { id: "heart", symbol: "♡", name: "Heart", marc: "loves always, in all ways", shekinah: "loves in the very same language", note: "Our hearts love in the same language: always, in all ways. Loudly, quietly, patiently, and honestly—even after the seasons that taught us how to return better." },
 ];
 
