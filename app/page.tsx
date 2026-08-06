@@ -454,7 +454,11 @@ function FutureRoom({ onComplete }: { onComplete: () => void }) {
         <div className="film-strip" aria-hidden="true">
           <div className={developed.includes(0) ? "future-frame hello-frame developed" : "future-frame hello-frame"}>
             <span>01</span>
-            <div className="hello-photo"><i /><b>✦</b><i /></div>
+            <div className="hello-photo">
+              <i className="hello-person marc-person"><span className="hello-hair" /></i>
+              <b>✦</b>
+              <i className="hello-person shekinah-person"><span className="hello-hair" /></i>
+            </div>
             <small>{developed.includes(0) ? "our first same-room hello" : "memory waiting for light"}</small>
           </div>
           <div className={developed.includes(1) ? "future-frame meal-frame developed" : "future-frame meal-frame"}>
