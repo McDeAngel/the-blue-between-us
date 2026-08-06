@@ -459,7 +459,11 @@ function FutureRoom({ onComplete }: { onComplete: () => void }) {
           </div>
           <div className={developed.includes(1) ? "future-frame meal-frame developed" : "future-frame meal-frame"}>
             <span>02</span>
-            <div className="meal-photo"><i /><b>♡</b><i /></div>
+            <div className="meal-photo">
+              <i><span>🍤</span><small>🍓</small></i>
+              <b>♡</b>
+              <i><span>🍤</span><small>🥭</small></i>
+            </div>
             <small>{developed.includes(1) ? "our first shared meal" : "memory waiting for light"}</small>
           </div>
           <div className={developed.includes(2) ? "future-frame lilies-frame developed" : "future-frame lilies-frame"}>
