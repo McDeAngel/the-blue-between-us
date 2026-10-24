@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Italiana&display=swap');
 
+/* Preserve the approved story artwork; the Level 7 UI system is layered above it. */
+@layer legacy {
+
 :root { --ink:#09203d; --navy:#061a32; --blue:#225ea8; --sky:#7fb7e8; --mist:#dbeaf7; --paper:#f7f4ec; --white:#fffefa; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -464,4 +467,5 @@ h1 em,h2 em { color:#a9d5f7; font-weight:400; }
 
 @media(hover:none){
   .primary-button:hover,.signal-bank button:not(:disabled):hover,.future-lights button:hover,.garden-scene .lily:hover,.future-cards button:hover{transform:none}
+}
 }

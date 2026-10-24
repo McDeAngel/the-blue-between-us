@@ -1,0 +1,143 @@
+/* The user's sky-full-of-stars direction: sapphire light, never a flat blue sheet. */
+:root {
+  --space: #040e20;
+  --space-ink: #edf6ff;
+  --space-muted: #b6cce4;
+  --space-blue: #85c4ff;
+  --space-surface: #0e2849;
+  --space-edge: #42648f;
+  --muted: var(--space-muted);
+  --line: #345477;
+}
+html { scrollbar-color: #5188b8 #071329; color-scheme: dark; }
+body { background: var(--space); color: var(--space-ink); }
+::selection { background: #81c5ff; color: #06172e; }
+.universe-sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--space); }
+.blue-nebula { position: absolute; inset: 0; background:
+  radial-gradient(ellipse at 85% 10%, #1b5bbd70, transparent 44%),
+  radial-gradient(ellipse at 60% 70%, #0b4ca166, transparent 52%),
+  radial-gradient(ellipse at 8% 50%, #17447555, transparent 45%),
+  radial-gradient(ellipse at 25% 100%, #092f695e, transparent 55%); }
+.universe-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+.star-layer { fill: #c4e3ff; }.star-layer-1 { fill: #87beff; }.star-layer-2 { fill: #eef7ff; }
+.game-shell, .opening { z-index: 1; background: transparent; }
+.chapter-stage { position: relative; z-index: 1; }
+.chapter, .arrival-chapter, .twin-chapter, .signal-chapter, .garden-chapter,
+.future-chapter, .finale-chapter, .finale-chapter.signal-sent, .constellation-chapter { background: transparent; color: var(--space-ink); }
+.chapter-title, .twin-chapter .chapter-title, .signal-chapter .chapter-title, .garden-chapter .chapter-title { color: var(--space-ink); }
+.chapter-title em, .twin-chapter .chapter-title em, .signal-chapter .chapter-title em,
+.garden-chapter .chapter-title em, .opening h1 em, .constellation-intro h1 em { color: #8fc9ff; }
+.arrival-copy > p:not(.eyebrow), .twin-copy > p:not(.eyebrow), .future-copy > p:not(.eyebrow),
+.signal-copy .honest-note, .garden-intro, .constellation-intro p { color: var(--space-muted); }
+.arrival-facts span, .arrival-facts b { color: #c7e0f7; }.arrival-facts > div { border-color: #3c5c7f; }
+.arrival-facts b { color: #e5f4ff; }
+
+/* Masthead and chapter rail belong to the same night sky as the story. */
+.topbar { z-index: 8; background: #061327f5; border-color: #41678b66; color: var(--space-ink); }
+.brand-mark { background: #194a7c; border: 1px solid #6aa2ce; }.brand small { color: #adcae5; }
+.sound-button, .map-toggle { color: #d6eaff; border-color: #42668c; background: #0d2846; }
+.map-toggle span { color: #a4d5ff; }
+.sound-button:hover, .map-toggle:hover, .map-toggle[aria-pressed="true"] { color: white; background: #164878; border-color: #80baf0; }
+.journey-nav { z-index: 6; isolation: isolate; background: #071629e8; border-color: #41678b66; }
+.journey-nav::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background:
+  radial-gradient(circle at 26% 7%, #baddff 0 .7px, transparent 1.2px),
+  radial-gradient(circle at 78% 27%, #8bb7e2 0 .7px, transparent 1.2px),
+  radial-gradient(circle at 42% 54%, #badfff 0 .6px, transparent 1.2px),
+  radial-gradient(circle at 83% 81%, #8bb7e2 0 .8px, transparent 1.2px); }
+.journey-nav > button { position: relative; z-index: 1; color: #c9ddf1; background: transparent; }
+.journey-nav > button.active, .journey-nav > button:not(:disabled):hover { background: transparent; box-shadow: none; }
+.journey-nav > button:disabled { color: #a3b7d0; }
+.nav-copy small { color: #a5bfdc; transition: color 220ms ease; }
+.nav-mark { color: #acd9ff; border-color: #6389b0; background: #0b2643; transition: background-color 240ms ease, border-color 240ms ease, color 240ms ease; }
+.journey-nav > button:disabled .nav-mark { color: #adc0d8; border-color: #486789; background: #091f38; }
+.journey-nav .visited .nav-mark { color: #d7eeff; background: #154977; border-color: #6297c1; }
+.journey-nav .active { color: white; }.journey-nav .active .nav-copy small { color: #d0e9ff; }
+.journey-nav .active .nav-mark { color: #08325c; background: #cfedff; border-color: #e1f5ff; }
+.journey-nav button:focus-visible { outline-color: #c2e6ff; outline-offset: 1px; }
+.nav-current-light {
+  position: absolute; left: 0; top: 0; z-index: 0; width: 0; height: 0; opacity: 0; pointer-events: none;
+  border-radius: 10px; border: 1px solid #72baff85;
+  background: linear-gradient(110deg, #1e5b96cf, #16416da6);
+  box-shadow: 0 6px 22px #00102d45, inset 0 1px #b1ddff2b;
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1), opacity 180ms ease;
+}
+.journey-nav[data-instant="true"] .nav-current-light { transition: none; }
+.nav-current-light::after { content: ""; position: absolute; left: 17%; right: 17%; bottom: 0; height: 1px; background: linear-gradient(90deg, transparent, #a8ddff, transparent); }
+
+/* Deep, quieter surfaces keep the star field behind the reading, not over it. */
+.connection-archive, .archive-complete, .observatory-board, .observatory-complete .observatory-board {
+  background: #091e3be8; border: 1px solid #446f9b; box-shadow: 0 24px 70px #01091c40;
+}
+.archive-header, .observatory-header { background: #0a2343; color: #c4dff5; border-color: #42608088; }
+.archive-sky { background: radial-gradient(ellipse at 50% 40%, #1f5f9c40, transparent 68%); }
+.archive-stars { opacity: .8; color: #c8e7ff; }
+.archive-beacon { background: #103c66; border-color: #8ec6f1; }
+.shekinah-beacon { background: #397cae; }
+.arrival-trace-card, .twin-discovery, .truth-card, .truth-card.visible { background: #153657; color: #f0f8ff; }
+.arrival-trace-card p, .truth-card p, .twin-discovery p { color: #d5e6f7; }
+.archive-success, .twin-completion { background: #194771; }
+.signal-bank button { background: #102e50; border-color: #527ba5; }.shekinah-bank button { background: #143a60; }
+.signal-bank button.selected { background: #245c8b; border-color: #d7efff; }
+.signal-bank button.matched { background: #1c466b; border-color: #6ba3cd; }
+.choice-game, .signal-restored { background: #0c2849f2; border-color: #49759c; }
+.choice-options button { background: #0e2e51; border-color: #4d749b; }
+.choice-options button.correct { background: #205e87; border-color: #aedfff; }
+.answer-reveal { background: #1c4b70; }
+.garden-scene { background: linear-gradient(#0b2145 0 25%, #174d73 72%, #0b2c48); border: 1px solid #38648d; }
+.garden-complete { background: linear-gradient(#0b284d 0 25%, #1f658a 72%, #0c344e); }
+.garden-progress span, .garden-completion > span { color: #c0dbf0; }
+
+.future-film { background: #0a2543; border-color: #6492b7; }
+.future-film.film-ready { background: #103e62; }
+.future-lights button { background: #0d2949; border-color: #4e759d; color: #edf7ff; }
+.future-lights button.lit { background: #19486d; border-color: #84bce7; }
+.future-lights button:hover { background: #1b4f79; }
+.future-lights b { color: #edf7ff; }
+.future-lights small, .letters-heading span, .letters-heading b { color: #bad6ec; }
+.future-whisper { color: #bed6e9; }
+.future-cards .envelope { background: #10385c; border-color: #6896bc; }
+.future-cards .envelope.jelly { background: #b7daf0; color: #103958; }
+.future-cards .envelope.jelly small { color: #315975; }
+.letter-reader { background: #edf5fa; color: #163650; border-color: #83aac5; }
+.future-letter > button { color: #183d5b; background: #d5e5ee; }.future-letter p { color: #244960; }
+.future-letter h3 { color: #183d57; }.future-letter small { color: #3d6078; }
+.letter-placeholder { color: #36596f; }
+.future-completion { background: #164266; border-color: #5a86aa; }.future-completion p { color: #e1f0fa; }.future-completion > span { color: #b6ddf8; }
+.interactive-poem p { color: #e3f0fa; }.interactive-poem p > span:first-child { color: #a6ceec; }
+.final-constellation span { color: #b8d3e9; }.final-constellation b { background: #0b2746; border-color: #6594b6; color: #cbe9fc; }
+.final-constellation .revealed b { background: #d4edff; color: #1b618f; }
+.reveal-star { color: #d4ebfc; border-color: #6695b9; background: #103150; }.reveal-star b { background: #245a7f; }
+.send-heart, .final-received { background: #113a5ced; color: #ecf7ff; }
+.send-heart > span, .final-received > span, .yes-moment > span { color: #b4ddfa; }
+.send-heart p, .final-received h3 { color: #e5f4ff; }.signed, .signed b { color: #c6e3f5; }
+.final-question { border-color: #527797; }.final-question p { color: #e1f0fc; }
+.final-question button, .send-heart button { background: #b9e0ff; color: #082b4c; }
+.yes-moment > button { color: #b2ddff; }.floating-hearts { color: #9fd6ff; }
+.final-visual > small { color: #bfdcf1; }.final-signal { color: #cae9fd; }
+.final-signal span { background: #153a59; border-color: #749dba; }.final-signal b { border-color: #85b4d3; }
+.final-signal.sent b { color: #145782; }
+.keepsake-center { background: #091d3af2; border-radius: 50%; padding: 15px; }
+.keepsake-detail { background: #103254ed; border: 1px solid #527da5; }
+.keepsake-star b { background: #10335b; border-color: #75a4cb; }.keepsake-star.kept b { background: #c7e9ff; }
+.map-thread { stroke: #5e8aaf; }.map-ray.lit { stroke: #a3d9ff; }
+.opening-orbit { border-color: #729dd073; background: radial-gradient(circle, #2566ac20, transparent 65%); }
+.opening-orbit::before { border-color: #7aaee142; }.orbit-keepsake { background: #113960; border-color: #7caad1; }
+.opening-dedication, .opening-orbit p, .best-note { color: #b7d3eb; }.opening-note { color: #d3e5f4; }
+.primary-button, .ivory-button { color: #092c4a; background: #d5edff; }
+.primary-button b { background: #81bff0; }.primary-button:hover, .primary-button.small:hover { background: #eef9ff; }
+.status-notice { color: #e1f3ff; background: #1b4d72; }.skip-link { background: #d5edff; color: #082b4c; }
+
+@keyframes sky-arrival { 0%, 100% { opacity: .8; } 45% { opacity: 1; } 75% { opacity: .55; } }
+@media (prefers-reduced-motion: no-preference) {
+  .star-layer-1 { animation: sky-arrival 3200ms ease-in-out 1; }
+  .star-layer-2 { animation: sky-arrival 4000ms ease-in-out 1; }
+}
+@media (max-width: 1000px) {
+  .journey-nav { background: #07172bf7; border-top-color: #4d759a; }
+  .journey-nav > button { min-width: 0; }
+  .nav-current-light { border-radius: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-current-light, .nav-mark, .nav-copy small { transition: none; }
+  .star-layer { animation: none; }
+}

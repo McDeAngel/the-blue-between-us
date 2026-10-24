@@ -13,6 +13,8 @@ It is an entirely frontend experience: no database, accounts, private keys, or b
 - Open future letters for Bogart and Jelly Bean
 - Unlock Marc's final poem for Shekinah
 
+The six chapters now form an interactive keepsake constellation. Open **Our constellation** to inspect or revisit the chapters you have unlocked. Revealed traces, matched frequencies, quiet-chapter notes, lilies, photographs, letters and the finale are saved in this browser. Older chapter unlocks are preserved. The piano track is available through the music button; it never starts without your choice.
+
 ## Run locally
 
 ```bash
@@ -35,5 +37,5 @@ The production build is statically exported, so every part of the game runs in t
 
 ```bash
 pnpm build
-node --test tests/rendered-html.test.mjs
+node --test tests/*.test.mjs
 ```
